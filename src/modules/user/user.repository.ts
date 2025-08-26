@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { IUserRepository } from './interfaces/user.repository';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { PaginationDto } from './dto/pagination.dto';
 
 @Injectable()
 export class UserRepository implements IUserRepository {
@@ -22,8 +23,13 @@ export class UserRepository implements IUserRepository {
     return this.repository.findOneBy({ id: id });
   }
 
-  findAll(): Promise<User[]> {
-    return this.repository.find();
+  findAll(paginationDto: PaginationDto): Promise<User[]> {
+    const { page, limit } = paginationDto;
+
+    return this.repository.find({
+      skip: (page - 1) * limit,
+      take: limit,
+    });
   }
 
   findByEmail(email: string): Promise<User | null> {

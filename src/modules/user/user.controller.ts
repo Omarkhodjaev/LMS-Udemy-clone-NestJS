@@ -7,11 +7,13 @@ import {
   Param,
   Delete,
   ParseUUIDPipe,
+  Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { PaginationDto } from './dto/pagination.dto';
 
 @Controller('user')
 export class UserController {
@@ -34,8 +36,8 @@ export class UserController {
     status: 200,
     description: 'List of users retrieved successfully.',
   })
-  findAll() {
-    return this.userService.findAll();
+  findAll(@Query() paginationDto: PaginationDto) {
+    return this.userService.findAll(paginationDto);
   }
 
   @Get(':id')

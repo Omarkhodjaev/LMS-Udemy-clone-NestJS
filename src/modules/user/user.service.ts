@@ -10,6 +10,7 @@ import {
   EmailAlreadyExistsException,
   UserNotFoundException,
 } from './exceptions/user.exception';
+import { PaginationDto } from './dto/pagination.dto';
 
 @Injectable()
 export class UserService implements IUserService {
@@ -38,8 +39,8 @@ export class UserService implements IUserService {
     return new ResData('User created successfully', 201, user);
   }
 
-  async findAll(): Promise<ResData<User[]>> {
-    const users = await this.userRepository.findAll();
+  async findAll(paginationDto: PaginationDto): Promise<ResData<User[]>> {
+    const users = await this.userRepository.findAll(paginationDto);
     return new ResData('All users retrieved successfully', 200, users);
   }
 
@@ -92,7 +93,7 @@ export class UserService implements IUserService {
     const user = await this.userRepository.findById(id);
 
     if (!user) {
-      return new ResData(`User with id ${id} not found`, 404);
+      throw new UserNotFoundException(id);
     }
 
     await this.userRepository.remove(id);

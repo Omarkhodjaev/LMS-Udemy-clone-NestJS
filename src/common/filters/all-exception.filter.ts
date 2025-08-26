@@ -21,7 +21,6 @@ export class AllExceptionsFilter implements ExceptionFilter {
       status = exception.getStatus();
       const res = exception.getResponse();
 
-      // agar HttpException custom bo‘lsa, undan message olamiz
       if (typeof res === 'string') {
         message = res;
       } else if (typeof res === 'object' && (res as any).message) {
@@ -29,15 +28,13 @@ export class AllExceptionsFilter implements ExceptionFilter {
       }
     }
 
+    const error =
+      exception instanceof Error
+        ? { name: exception.name }
+        : null;
+
     response
       .status(status)
-      .json(
-        new ResData(
-          message,
-          status,
-          null,
-          exception instanceof Error ? exception : null,
-        ),
-      );
+      .json(new ResData(message, status, null, error));
   }
 }
