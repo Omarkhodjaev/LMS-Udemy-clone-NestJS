@@ -1,26 +1,102 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { User } from './entities/user.entity';
+import { ResData } from 'src/database/resData';
+import { IUserService } from './interfaces/user.service';
+import type { IUserRepository } from './interfaces/user.repository';
+import { BcryptEncryption } from 'src/library/bcrypt';
+import {
+  EmailAlreadyExistsException,
+  UserNotFoundException,
+} from './exceptions/user.exception';
 
 @Injectable()
-export class UserService {
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+export class UserService implements IUserService {
+  constructor(
+    @Inject('IUserRepository') private readonly userRepository: IUserRepository,
+  ) {}
+
+  async create(createUserDto: CreateUserDto): Promise<ResData<User>> {
+    const existingUser = await this.userRepository.findByEmail(
+      createUserDto.email,
+    );
+
+    if (existingUser) {
+      throw new EmailAlreadyExistsException();
+    }
+
+    const hashedPassword = await BcryptEncryption.encrypt(
+      createUserDto.password,
+    );
+
+    const user = await this.userRepository.create({
+      ...createUserDto,
+      password: hashedPassword,
+    });
+
+    return new ResData('User created successfully', 201, user);
   }
 
-  findAll() {
-    return `This action returns all user`;
+  async findAll(): Promise<ResData<User[]>> {
+    const users = await this.userRepository.findAll();
+    return new ResData('All users retrieved successfully', 200, users);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: string): Promise<ResData<User>> {
+    const user = await this.userRepository.findById(id);
+
+    if (!user) {
+      throw new UserNotFoundException(id);
+    }
+
+    return new ResData(`User with id ${id} retrieved successfully`, 200, user);
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(
+    id: string,
+    updateUserDto: UpdateUserDto,
+  ): Promise<ResData<User>> {
+    const user = await this.userRepository.findById(id);
+
+    if (!user) {
+      throw new UserNotFoundException(id);
+    }
+
+    if (updateUserDto.password) {
+      updateUserDto.password = await BcryptEncryption.encrypt(
+        updateUserDto.password,
+      );
+    }
+
+    if (updateUserDto.email && updateUserDto.email !== user.email) {
+      const existingUser = await this.userRepository.findByEmail(
+        updateUserDto.email,
+      );
+
+      if (existingUser) {
+        throw new EmailAlreadyExistsException();
+      }
+    }
+
+    const updatedUser = await this.userRepository.update(id, updateUserDto);
+
+    return new ResData(
+      `User with id ${id} updated successfully`,
+      200,
+      updatedUser,
+    );
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: string): Promise<ResData<void>> {
+    const user = await this.userRepository.findById(id);
+
+    if (!user) {
+      return new ResData(`User with id ${id} not found`, 404);
+    }
+
+    await this.userRepository.remove(id);
+
+    return new ResData(`User with id ${id} removed successfully`, 204);
   }
 }
