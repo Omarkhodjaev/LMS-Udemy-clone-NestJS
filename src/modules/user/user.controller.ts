@@ -8,16 +8,20 @@ import {
   Delete,
   ParseUUIDPipe,
   Query,
+  Inject,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { PaginationDto } from './dto/pagination.dto';
+import type { IUserService } from './interfaces/user.service';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    @Inject('IUserService') private readonly userService: IUserService,
+  ) {}
 
   @Post()
   @ApiOperation({ summary: 'Create a new user' })

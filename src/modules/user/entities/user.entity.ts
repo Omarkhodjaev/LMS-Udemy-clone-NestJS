@@ -1,13 +1,14 @@
-import { CreateDateColumn, Entity, UpdateDateColumn } from 'typeorm';
+import { CreateDateColumn, Entity, OneToMany, UpdateDateColumn } from 'typeorm';
 import { PrimaryGeneratedColumn, Column } from 'typeorm';
 import { UserRole } from './user.enum';
+import { Course } from 'src/modules/course/entities/course.entity';
 
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ length: 50 })
+  @Column({ length: 50, name: 'full_name', nullable: false })
   fullName: string;
 
   @Column({ length: 100, unique: true })
@@ -22,12 +23,15 @@ export class User {
   @Column({ nullable: true })
   bio: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, name: 'avatar_url' })
   avatarUrl: string;
 
-  @CreateDateColumn({ type: 'timestamp with time zone' })
+  @CreateDateColumn({ type: 'timestamp with time zone', name: 'created_at' })
   createdAt: Date;
 
-  @UpdateDateColumn({ type: 'timestamp with time zone' })
+  @UpdateDateColumn({ type: 'timestamp with time zone', name: 'updated_at' })
   updatedAt: Date;
+
+  @OneToMany(() => Course, (course) => course.instructor)
+  courses: Course[];
 }
