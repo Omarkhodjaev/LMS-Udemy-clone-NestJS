@@ -1,4 +1,4 @@
-import { PaginationDto } from 'src/modules/user/dto/pagination.dto';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { CreateCourseDto } from '../dto/create-course.dto';
 import { Course } from '../entities/course.entity';
 import { UpdateCourseDto } from '../dto/update-course.dto';

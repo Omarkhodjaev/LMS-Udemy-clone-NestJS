@@ -4,7 +4,7 @@ import { UpdateCourseDto } from './dto/update-course.dto';
 import type { ICourseRepository } from './interfaces/course.repository';
 import { ICourseService } from './interfaces/course.service';
 import { ResData } from 'src/database/resData';
-import { PaginationDto } from '../user/dto/pagination.dto';
+import { PaginationDto } from '../../common/dto/pagination.dto';
 import { Course } from './entities/course.entity';
 import type { IUserService } from '../user/interfaces/user.service';
 import { CourseNotFoundException } from './exceptions/course.exceptions';

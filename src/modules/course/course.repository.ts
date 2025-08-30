@@ -4,7 +4,7 @@ import { Course } from './entities/course.entity';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { ICourseRepository } from './interfaces/course.repository';
 import { Repository } from 'typeorm';
-import { PaginationDto } from '../user/dto/pagination.dto';
+import { PaginationDto } from '../../common/dto/pagination.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 
 @Injectable()
@@ -16,7 +16,6 @@ export class CourseRepository implements ICourseRepository {
 
   create(createCourseDto: CreateCourseDto): Promise<Course> {
     const course = this.repository.create(createCourseDto);
-    console.log(course);
 
     return this.repository.save(course);
   }

@@ -15,6 +15,8 @@ async function bootstrap() {
     }),
   );
 
+  app.setGlobalPrefix('api', { exclude: ['api/docs'] });
+
   app.useGlobalFilters(new AllExceptionsFilter());
 
   const config = new DocumentBuilder()

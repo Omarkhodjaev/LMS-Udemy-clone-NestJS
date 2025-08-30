@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
-import { PaginationDto } from '../user/dto/pagination.dto';
+import { PaginationDto } from '../../common/dto/pagination.dto';
 import type { ICourseService } from './interfaces/course.service';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 

@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { IUserRepository } from './interfaces/user.repository';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { PaginationDto } from './dto/pagination.dto';
+import { PaginationDto } from '../../common/dto/pagination.dto';
 
 @Injectable()
 export class UserRepository implements IUserRepository {

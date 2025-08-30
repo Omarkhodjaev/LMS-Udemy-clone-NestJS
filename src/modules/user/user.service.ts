@@ -10,7 +10,7 @@ import {
   EmailAlreadyExistsException,
   UserNotFoundException,
 } from './exceptions/user.exception';
-import { PaginationDto } from './dto/pagination.dto';
+import { PaginationDto } from '../../common/dto/pagination.dto';
 
 @Injectable()
 export class UserService implements IUserService {

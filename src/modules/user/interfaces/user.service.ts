@@ -2,7 +2,7 @@ import { ResData } from 'src/database/resData';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { User } from '../entities/user.entity';
 import { UpdateUserDto } from '../dto/update-user.dto';
-import { PaginationDto } from '../dto/pagination.dto';
+import { PaginationDto } from '../../../common/dto/pagination.dto';
 
 export interface IUserService {
   create(createUserDto: CreateUserDto): Promise<ResData<User>>;
