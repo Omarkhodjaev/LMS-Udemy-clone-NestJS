@@ -1,3 +1,4 @@
+import { Course } from 'src/modules/course/entities/course.entity';
 import {
   Column,
   Entity,
@@ -26,4 +27,7 @@ export class Category {
 
   @OneToMany(() => Category, (category) => category.parent)
   children: Category[];
+
+  @OneToMany(() => Course, (course) => course.category)
+  courses: Course[];
 }

@@ -33,7 +33,7 @@ export class CourseRepository implements ICourseRepository {
     return this.repository.find({
       skip: (page - 1) * limit,
       take: limit,
-      relations: ['instructor'],
+      relations: ['instructor', 'category'],
     });
   }
 

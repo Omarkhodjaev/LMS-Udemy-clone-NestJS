@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { courseLevel, courseStatus } from './course.enum';
 import { User } from 'src/modules/user/entities/user.entity';
+import { Category } from 'src/modules/categories/entities/category.entity';
 
 @Entity('courses')
 export class Course {
@@ -52,4 +53,10 @@ export class Course {
   @ManyToOne(() => User, (user) => user.courses, { onDelete: 'SET NULL' })
   @JoinColumn({ name: 'instructor_id' })
   instructor: User;
+
+  @ManyToOne(() => Category, (category) => category.id, {
+    onDelete: 'SET NULL',
+  })
+  @JoinColumn({ name: 'category_id' })
+  category: Category;
 }

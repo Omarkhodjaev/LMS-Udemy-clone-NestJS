@@ -5,9 +5,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Course } from './entities/course.entity';
 import { CourseRepository } from './course.repository';
 import { UserModule } from '../user/user.module';
+import { CategoriesModule } from '../categories/categories.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Course]), UserModule],
+  imports: [TypeOrmModule.forFeature([Course]), UserModule, CategoriesModule],
   controllers: [CourseController],
   providers: [
     {
