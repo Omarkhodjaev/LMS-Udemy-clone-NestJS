@@ -4,6 +4,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './modules/user/user.module';
 import { CourseModule } from './modules/course/course.module';
 import { CategoriesModule } from './modules/categories/categories.module';
+import { LessonModule } from './modules/lesson/lesson.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -24,9 +27,14 @@ import { CategoriesModule } from './modules/categories/categories.module';
         synchronize: true,
       }),
     }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'uploads'),
+      serveRoot: '/uploads',
+    }),
     UserModule,
     CourseModule,
     CategoriesModule,
+    LessonModule,
   ],
 })
 export class AppModule {}

@@ -20,5 +20,6 @@ import { CategoriesModule } from '../categories/categories.module';
       useClass: CourseRepository,
     },
   ],
+  exports: ['ICourseService'],
 })
 export class CourseModule {}
