@@ -24,6 +24,11 @@ async function bootstrap() {
     .setTitle('LSM API')
     .setDescription('The LSM API description')
     .setVersion('1.0')
+    .addBearerAuth({
+      type: 'http',
+      scheme: 'bearer',
+      bearerFormat: 'JWT',
+    })
     .addTag('lsm')
     .build();
 

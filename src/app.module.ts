@@ -8,7 +8,6 @@ import { LessonModule } from './modules/lesson/lesson.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { CertificateModule } from './modules/certificate/certificate.module';
-import { Service } from './auth/modules/.service';
 import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
@@ -34,13 +33,12 @@ import { AuthModule } from './modules/auth/auth.module';
       rootPath: join(__dirname, '..', 'uploads'),
       serveRoot: '/uploads',
     }),
+    AuthModule,
     UserModule,
     CourseModule,
     CategoriesModule,
     LessonModule,
     CertificateModule,
-    AuthModule,
   ],
-  providers: [Service],
 })
 export class AppModule {}

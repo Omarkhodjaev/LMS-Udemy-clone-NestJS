@@ -11,14 +11,17 @@ import {
   Inject,
   UseGuards,
 } from '@nestjs/common';
-import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { PaginationDto } from '../../common/dto/pagination.dto';
 import type { IUserService } from './interfaces/user.service';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { AuthGuard } from '@nestjs/passport';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { UserRole } from 'src/common/enums/user.enum';
+import { RolesGuard } from 'src/common/guards/roles.guard';
 
+@ApiBearerAuth()
 @Controller('user')
 export class UserController {
   constructor(
@@ -26,6 +29,8 @@ export class UserController {
   ) {}
 
   @Post()
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(UserRole.ADMIN)
   @ApiOperation({ summary: 'Create a new user' })
   @ApiResponse({ status: 201, description: 'User created successfully.' })
   @ApiResponse({
@@ -36,8 +41,9 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get()
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(UserRole.ADMIN)
   @ApiOperation({ summary: 'Get all users' })
   @ApiResponse({
     status: 200,
@@ -48,6 +54,8 @@ export class UserController {
   }
 
   @Get(':id')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(UserRole.ADMIN)
   @ApiOperation({ summary: 'Get a user by ID' })
   @ApiResponse({
     status: 200,
@@ -59,6 +67,8 @@ export class UserController {
   }
 
   @Patch(':id')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(UserRole.ADMIN)
   @ApiOperation({ summary: 'Update a user by ID' })
   @ApiResponse({
     status: 200,
@@ -74,6 +84,8 @@ export class UserController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(UserRole.ADMIN)
   @ApiOperation({ summary: 'Delete a user by ID' })
   @ApiResponse({
     status: 200,
