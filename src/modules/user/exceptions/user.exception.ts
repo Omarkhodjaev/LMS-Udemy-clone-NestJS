@@ -11,3 +11,9 @@ export class UserNotFoundException extends HttpException {
     super(`User with id ${id} not found`, HttpStatus.NOT_FOUND);
   }
 }
+
+export class UserEmailNotFoundException extends HttpException {
+  constructor(email: string) {
+    super(`User with email ${email} not found`, HttpStatus.NOT_FOUND);
+  }
+}

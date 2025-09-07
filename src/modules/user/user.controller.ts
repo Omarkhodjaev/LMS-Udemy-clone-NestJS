@@ -9,6 +9,7 @@ import {
   ParseUUIDPipe,
   Query,
   Inject,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -16,6 +17,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { PaginationDto } from '../../common/dto/pagination.dto';
 import type { IUserService } from './interfaces/user.service';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('user')
 export class UserController {
@@ -34,6 +36,7 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   @ApiOperation({ summary: 'Get all users' })
   @ApiResponse({

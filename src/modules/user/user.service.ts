@@ -8,6 +8,7 @@ import type { IUserRepository } from './interfaces/user.repository';
 import { BcryptEncryption } from 'src/library/bcrypt';
 import {
   EmailAlreadyExistsException,
+  UserEmailNotFoundException,
   UserNotFoundException,
 } from './exceptions/user.exception';
 import { PaginationDto } from '../../common/dto/pagination.dto';
@@ -42,6 +43,16 @@ export class UserService implements IUserService {
   async findAll(paginationDto: PaginationDto): Promise<ResData<User[]>> {
     const users = await this.userRepository.findAll(paginationDto);
     return new ResData('All users retrieved successfully', 200, users);
+  }
+
+  async findByEmail(email: string): Promise<ResData<User | null>> {
+    const user = await this.userRepository.findByEmail(email);
+
+    if (!user) {
+      throw new UserEmailNotFoundException(email);
+    }
+
+    return new ResData('User retrieved successfully', 200, user);
   }
 
   async findOne(id: string): Promise<ResData<User>> {

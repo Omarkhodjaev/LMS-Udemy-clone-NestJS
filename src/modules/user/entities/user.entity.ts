@@ -1,7 +1,8 @@
 import { CreateDateColumn, Entity, OneToMany, UpdateDateColumn } from 'typeorm';
 import { PrimaryGeneratedColumn, Column } from 'typeorm';
-import { UserRole } from './user.enum';
+import { UserRole } from '../../../common/enums/user.enum';
 import { Course } from 'src/modules/course/entities/course.entity';
+import { Certificate } from 'src/modules/certificate/entities/certificate.entity';
 
 @Entity('users')
 export class User {
@@ -34,4 +35,6 @@ export class User {
 
   @OneToMany(() => Course, (course) => course.instructor)
   courses: Course[];
+
+  certificates: Certificate[];
 }

@@ -1,8 +1,8 @@
 import { IsEmail, IsEnum, IsOptional, IsString, Length } from 'class-validator';
-import { UserRole } from '../../../common/enums/user.enum';
 import { ApiProperty } from '@nestjs/swagger';
+import { UserRole } from 'src/common/enums/user.enum';
 
-export class CreateUserDto {
+export class AuthRegisterDto {
   @ApiProperty({
     example: 'John Doe',
     description: 'The full name of the user',
@@ -27,16 +27,6 @@ export class CreateUserDto {
   password: string;
 
   @ApiProperty({
-    example: 'student',
-    description: 'The role of the user (student, instructor, admin)',
-    enum: UserRole,
-  })
-  @IsEnum(UserRole, {
-    message: 'Role must be one of the following: student, instructor, admin',
-  })
-  role: UserRole;
-
-  @ApiProperty({
     example: 'A brief bio about the user',
     description: 'The bio of the user',
   })
@@ -51,4 +41,14 @@ export class CreateUserDto {
   @IsString({ message: 'Avatar URL must be a string' })
   @IsOptional()
   avatarUrl?: string;
+
+  @ApiProperty({
+    example: 'student',
+    description: 'The role of the user (student, instructor)',
+    enum: UserRole,
+  })
+  @IsEnum(UserRole, {
+    message: 'Role must be one of the following: student, instructor',
+  })
+  role: UserRole;
 }

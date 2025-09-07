@@ -36,6 +36,7 @@ export class LessonController {
 
   @Post('upload')
   @ApiConsumes('multipart/form-data')
+  @ApiOperation({ summary: 'Upload a lesson video' })
   @ApiBody({
     description: 'Upload lesson file',
     type: CreateLessonDto,
@@ -78,6 +79,11 @@ export class LessonController {
   }
 
   @Patch(':id')
+  @ApiOperation({ summary: 'Update a lesson by ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'Lesson updated successfully.',
+  })
   update(
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() updateLessonDto: UpdateLessonDto,
@@ -86,6 +92,11 @@ export class LessonController {
   }
 
   @Delete(':id')
+  @ApiOperation({ summary: 'Delete a lesson by ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'Lesson removed successfully.',
+  })
   remove(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.lessonService.remove(id);
   }

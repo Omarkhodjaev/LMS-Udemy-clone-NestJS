@@ -12,6 +12,7 @@ import { courseLevel, courseStatus } from './course.enum';
 import { User } from 'src/modules/user/entities/user.entity';
 import { Category } from 'src/modules/categories/entities/category.entity';
 import { Lesson } from 'src/modules/lesson/entities/lesson.entity';
+import { Certificate } from 'crypto';
 
 @Entity('courses')
 export class Course {
@@ -64,4 +65,6 @@ export class Course {
 
   @OneToMany(() => Lesson, (lesson) => lesson.course)
   lessons: Lesson[];
+
+  certificates: Certificate[];
 }

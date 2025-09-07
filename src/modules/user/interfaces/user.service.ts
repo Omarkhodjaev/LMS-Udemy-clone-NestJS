@@ -8,6 +8,7 @@ export interface IUserService {
   create(createUserDto: CreateUserDto): Promise<ResData<User>>;
   findOne(id: string): Promise<ResData<User>>;
   findAll(paginationDto: PaginationDto): Promise<ResData<User[]>>;
+  findByEmail(email: string): Promise<ResData<User | null>>;
   update(id: string, updateUserDto: UpdateUserDto): Promise<ResData<User>>;
   remove(id: string): Promise<ResData<void>>;
 }
